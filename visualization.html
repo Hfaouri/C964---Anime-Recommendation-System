@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detailed Visualizations</title>
+    <!-- Link to Bootstrap CSS for styling. -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Detailed Visualizations for Anime Data</h1>
+        <!-- Link to navigate back to the home page. -->
+        <a href="/" class="btn btn-primary mb-3">Back to Home</a>
+
+        <!-- Section for the Genre Distribution Chart. -->
+        <div class="mb-5">  
+            <h3><b>Genre Distribution Chart:</b></h3>
+            <p>This chart shows the distribution of genres within the top recommendations.</p>
+            {{ genre_chart|safe }}
+        </div>
+        
+        <!-- Section for the Recommendation Similarity Scores Chart. -->
+        <div class="mb-5">  
+            <h3><b>Recommendation Similarity Scores:</b></h3>
+            <p>This bar chart ranks the top recommendations by their similarity scores to your query.</p>
+            {{ similarity_chart|safe }}
+        </div>
+        
+        <!-- Section for the Anime Score Analysis Chart. -->
+        <div class="mb-5">  
+            <h3><b>Anime Score Analysis:</b></h3>
+            <p>This scatter plot shows the scores of the recommended anime, allowing for comparison of their quality.</p>
+            {{ score_chart|safe }}
+        </div>
+        
+    </div>
+
+    <!-- Scripts for jQuery, Popper.js, and Bootstrap JS, used for interactive components -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
