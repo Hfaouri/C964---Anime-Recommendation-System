@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Recommendation System</title>
+    <!-- Link to Bootstrap CSS for styling. -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <!-- Main heading of the page. -->
+        <h1>Anime Recommendation System</h1>
+        <!-- Form for user input. -->
+        <form method="post">
+            <div class="form-group">
+                <label for="anime_title">Enter Anime Title:</label>
+                 <!-- Input field for anime title with datalist for autocomplete. -->
+                <input type="text" class="form-control" id="anime_title" name="anime_title" placeholder="Enter anime title" required list="anime-titles">
+                <!-- Datalist provides autocomplete suggestions based on available anime titles. -->
+                <datalist id="anime-titles">
+                    {% for title in anime_titles %}
+                    <option value="{{ title }}"></option>
+                    {% endfor %}
+                </datalist>
+            </div>
+            <button type="submit" class="btn btn-primary">Get Recommendations</button>
+        </form>
+
+        <!-- Block to display recommendations. -->
+        {% if recommendations %}
+            <h2 class="mt-4">Recommendations:</h2>
+            <ul class="list-unstyled">
+                <!-- Loops through each recommendation and displays its name and rating. -->
+                {% for rec in recommendations %}
+                    <li>{{ rec['Name'] }} - Rating: {{ rec['Score'] }}</li>
+                {% endfor %}
+            </ul>
+            <!-- Form for submitting feedback on the recommendations. -->
+            <form action="/rate_recommendations" method="post">
+                <input type="hidden" name="anime_title" value="{{ anime_title }}">
+                <button type="submit" name="feedback" value="Recommendation Good" class="btn btn-success">Good Recommendations</button>
+                <button type="submit" name="feedback" value="Recommendation Bad" class="btn btn-danger">Bad Recommendations</button>
+            </form>
+            
+            <h3><b>Charts Based on Your Search:</b></h3>
+            <!-- Displays the genre distribution chart. -->
+            <div><b>Genre Distribution Chart:</b> <p>This chart shows the distribution of genres within the top recommendations.</p>{{ genre_chart|safe }}</div>
+            <!-- Displays the similarity vs rating chart. -->
+            <div><b>Recommendation Similarity vs Anime Rating:</b> <p>This scatter plot compares the similarity scores to the anime ratings, providing insight into how closely the ratings correlate with user preferences.</p>{{ similarity_chart|safe }}</div>
+            <!-- Displays the rating vs similarity analysis chart. -->
+            <div><b>Anime Rating vs Similarity Analysis:</b> <p>This bar chart compares the anime ratings and similarity scores side-by-side for each anime, highlighting the relationship between how similar an anime is to user preferences and its overall rating.</p>{{ score_chart|safe }}</div>
+
+        {% endif %}
+
+        <!-- Displays flash messages if there are any. -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} mt-3">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Scripts for jQuery, Popper.js, and Bootstrap JS, used for interactive components. -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
